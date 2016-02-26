@@ -11,7 +11,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class BackgroundSoundService extends Service {
@@ -34,7 +33,7 @@ public class BackgroundSoundService extends Service {
         super.onCreate();
         Log.d("service", "onCreate");
         player = new MediaPlayer();
-        player.setLooping(false); // Set looping
+        player.setLooping(false);
         player.setVolume(100, 100);
 
         if(intent == null)
@@ -71,8 +70,6 @@ public class BackgroundSoundService extends Service {
 
     private void DisplayLoggingInfo() {
         if(playing) {
-            intent.putExtra("time", new Date().toLocaleString());
-            intent.putExtra("counter", String.valueOf(++counter));
             try {
                 intent.putExtra("position", CurrentPosition());
                 intent.putExtra("duration", GetDuration());
