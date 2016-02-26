@@ -51,18 +51,10 @@ public class MainActivity extends Activity implements RecyclerView.OnClickListen
         int position = intent.getIntExtra("position", 0);
 
         PlaylistItem pi = App.Instance().PlayingItem();
-        pi.SetData(TimeString(position, duration));
+        pi.SetData(Utils.TimeString(position, duration));
         pi.SetPosition(position, duration);
 
         adapter.notifyDataSetChanged();
-    }
-
-    private String TimeString(int position, int duration) {
-        int s1 = position/1000;
-        int s2 = duration/1000;
-        int m1 = s1 / 60;
-        int m2 = s2 / 60;
-        return String.format("%d:%d/%d:%d", m1, s1 % 60, m2, s2 % 60);
     }
 
     @Override
