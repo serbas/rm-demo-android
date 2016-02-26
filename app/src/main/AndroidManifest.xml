@@ -24,7 +24,7 @@
         </activity>
 
         <service android:name=".customview.BackgroundSoundService" android:enabled="true" />
-        <service android:name="._BroadcastService" android:enabled="true" />
+        <service android:name=".BroadcastService" android:enabled="true" />
 
     </application>
 
