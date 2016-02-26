@@ -2,6 +2,7 @@ package my.apps.demo.russianmediademo.customview;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,9 +71,13 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> {
 
         final PlaylistItem pi = items.get(position);
 
-        if(!pi.equals(App.Instance().PlayingItem()))
+        if(pi.equals(App.Instance().PlayingItem()))
         {
+            viewHolder.mTitle.setBackgroundColor(Color.YELLOW);
+        }
+        else {
             pi.SetPosition(0, 0);
+            viewHolder.mTitle.setBackgroundColor(Color.WHITE);
         }
 
         viewHolder.mTitle.setText(pi.Name());
