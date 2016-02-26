@@ -77,6 +77,7 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> {
         }
         else {
             pi.SetPosition(0, 0);
+            pi.SetData("00:00");
             viewHolder.mTitle.setBackgroundColor(Color.WHITE);
         }
 
