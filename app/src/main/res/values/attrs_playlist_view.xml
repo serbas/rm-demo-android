@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="PlaylistView">
+        <attr name="playlist_url" format="string" />
+    </declare-styleable>
+</resources>

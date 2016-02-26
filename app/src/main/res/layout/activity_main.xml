@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <Button
+        android:id="@+id/stop_btn"
+        android:text="@string/stop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <my.apps.demo.russianmediademo.customview.PlaylistView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/playlist"
+        android:name="my.apps.demo.russianmediademo.customview.PlaylistView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:playlist_url="https://backend.soundstream.media/API/v1.5/?action=get_podcasts"
+        app:layoutManager="LinearLayoutManager"
+        tools:listitem="@layout/playlist_item" />
+
+</LinearLayout>
