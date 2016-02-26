@@ -69,6 +69,12 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> {
             viewHolder = (ViewHolder) convertView.getTag();
 
         final PlaylistItem pi = items.get(position);
+
+        if(!pi.equals(App.Instance().PlayingItem()))
+        {
+            pi.SetPosition(0, 0);
+        }
+
         viewHolder.mTitle.setText(pi.Name());
         viewHolder.mPositionText.setText(pi.Data());
         viewHolder.mSeekbar.setMax(pi.GetDuration());

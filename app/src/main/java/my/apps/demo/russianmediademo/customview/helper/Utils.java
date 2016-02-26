@@ -42,7 +42,7 @@ public class Utils {
         int s2 = duration/1000;
         int m1 = s1 / 60;
         int m2 = s2 / 60;
-        return String.format("%d:%d/%d:%d", m1, s1 % 60, m2, s2 % 60);
+        return String.format("%02d:%02d/%02d:%02d", m1, s1 % 60, m2, s2 % 60);
     }
 
 
