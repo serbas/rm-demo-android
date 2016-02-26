@@ -9,7 +9,7 @@ public class App {
     private static final String TAG = "App";
     private static App instance;
     private List<PlaylistItem> _playlist;
-    private PlaylistItem playing_playlist;
+    private PlaylistItem playing_item;
 
     private App() {
     }
@@ -29,8 +29,8 @@ public class App {
     }
 
     public void SetPlaying(PlaylistItem pi) {
-        playing_playlist = pi;
+        playing_item = pi;
     }
 
-    public PlaylistItem PlayingItem(){return playing_playlist;}
+    public PlaylistItem PlayingItem(){return playing_item;}
 }

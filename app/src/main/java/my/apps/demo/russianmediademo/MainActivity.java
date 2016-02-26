@@ -113,7 +113,6 @@ public class MainActivity extends Activity implements RecyclerView.OnClickListen
 
     @Override
     public void onClick(View view) {
-        Log.i(TAG, "click");
     }
 
     @Override
@@ -169,10 +168,6 @@ public class MainActivity extends Activity implements RecyclerView.OnClickListen
         try {
             rc.Execute(RestClient.RequestMethod.GET, url, null, null, null);
 
-            Log.i(TAG, "response code = " + rc.responseCode);
-            Log.i(TAG, "message:" + rc.message);
-            Log.i(TAG, "response:" + rc.response);
-
             JSONObject jResponse = new JSONObject(rc.response);
             boolean is_ok = jResponse.getBoolean("success");
 
@@ -183,12 +178,9 @@ public class MainActivity extends Activity implements RecyclerView.OnClickListen
 
                     String id = jo.getString("id");
                     String name = jo.getString("name");
-                    Log.i("LoadData", id + ") name:" + name);
                     String image = jo.getString("image");
-                    Log.i("LoadData", "image:" + image);
                     JSONObject play = jo.getJSONObject("play");
                     String high = play.getString("high");
-                    Log.i("LoadData", "play.high:" + high);
 
                     PlaylistItem pli = new PlaylistItem(id, name, image, high, "00:00");
                     result.add(pli);
