@@ -1,7 +1,7 @@
 package my.apps.demo.russianmediademo.customview;
 
 public class PlaylistItem {
-    public String id;
+    private String _id;
     private String _name;
     private String _image;
     private String _high;
@@ -10,7 +10,7 @@ public class PlaylistItem {
     private int _position;
 
     public PlaylistItem(String id, String name, String image, String high, String data) {
-        this.id = id;
+        _id = id;
         _name = name;
         _high = high;
         _image = image;
