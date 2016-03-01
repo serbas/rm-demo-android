@@ -39,7 +39,7 @@ public class ImageLoader {
     public void DisplayImage(String url, ImageView imageView)
     {
         imageViews.put(imageView, url);
-        Bitmap bitmap=memoryCache.get(url);
+        Bitmap bitmap = memoryCache.get(url);
         if(bitmap!=null)
             imageView.setImageBitmap(bitmap);
         else
@@ -51,7 +51,7 @@ public class ImageLoader {
         
     private void queuePhoto(String url, ImageView imageView)
     {
-        PhotoToLoad p=new PhotoToLoad(url, imageView);
+        PhotoToLoad p = new PhotoToLoad(url, imageView);
         executorService.submit(new PhotosLoader(p));
     }
     

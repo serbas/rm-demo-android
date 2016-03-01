@@ -40,8 +40,7 @@ public class PlaylistView extends ListView {
         final TypedArray a = getContext().obtainStyledAttributes(
                 attrs, R.styleable.PlaylistView, defStyle, 0);
 
-        mPodcastUrl = a.getString(
-                R.styleable.PlaylistView_playlist_url);
+        mPodcastUrl = a.getString(R.styleable.PlaylistView_playlist_url);
 
         a.recycle();
     }

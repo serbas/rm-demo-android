@@ -87,7 +87,7 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> {
         viewHolder.mSeekbar.setProgress(pi.GetPosition());
         viewHolder.mSeekbar.setSecondaryProgress(0);
 
-        viewHolder.mImage.setOnClickListener(new View.OnClickListener() {
+        convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.i(TAG, "item clicked:" + pi.Name());
