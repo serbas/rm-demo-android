@@ -88,32 +88,32 @@ public class BackgroundSoundService extends Service {
         handler.removeCallbacks(sendUpdatesToUI);
         handler.postDelayed(sendUpdatesToUI, 1000); // 1 second
 
-        try {
-            playing = true;
-            player.setDataSource(url);
-            player.prepare();
-            player.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        startPlayProgressUpdater(url);
+        startMediaPlayer(url);
+
+        startPlayProgressUpdater();
 
         return 1;
     }
 
-    public int GetDuration(){
-        if(player != null && player.isPlaying())
-            return player.getDuration();
-        else return 0;
+    private void startMediaPlayer(final String url) {
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    Log.i(TAG, "startMediaPlayer...");
+                    playing = true;
+                    player.setDataSource(url);
+                    player.prepare();
+                    player.start();
+                    Log.i(TAG, "startMediaPlayer started!");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
     }
 
-    public int CurrentPosition(){
-        if(player != null && player.isPlaying() && playing)
-            return player.getCurrentPosition();
-        else return 0;
-    }
-
-    public void startPlayProgressUpdater(final String url) {
+    public void startPlayProgressUpdater() {
         Thread t = new Thread(new Runnable() {
             public void run() {
                 try {
@@ -131,6 +131,18 @@ public class BackgroundSoundService extends Service {
             }
         });
         t.start();
+    }
+
+    public int GetDuration(){
+        if(player != null && player.isPlaying())
+            return player.getDuration();
+        else return 0;
+    }
+
+    public int CurrentPosition(){
+        if(player != null && player.isPlaying() && playing)
+            return player.getCurrentPosition();
+        else return 0;
     }
 
     public void onStart(Intent intent, int startId) {

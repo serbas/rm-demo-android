@@ -79,7 +79,6 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> {
         if(pi.equals(App.Instance().PlayingItem()) && pi.GetPosition() > 0)
         {
             viewHolder.mTitle.setBackgroundColor(Color.YELLOW);
-            viewHolder.mProgress.setVisibility(View.VISIBLE);
         }
         else {
             pi.SetPosition(0, 0);
