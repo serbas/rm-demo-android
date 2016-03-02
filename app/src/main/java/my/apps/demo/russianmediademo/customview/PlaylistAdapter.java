@@ -1,6 +1,7 @@
 package my.apps.demo.russianmediademo.customview;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
@@ -26,6 +27,7 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> {
     private List<PlaylistItem> items;
     private PlaylistView.OnListFragmentInteractionListener mListener;
     private ViewHolder viewHolder;
+    private ProgressDialog progressDialog;
 
     static class ViewHolder {
         public TextView mTitle;
@@ -93,13 +95,23 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> {
                 Log.i(TAG, "item clicked:" + pi.Name());
                 App.Instance().SetPlaying(pi);
 
-                Intent svc = new Intent(context, BackgroundSoundService.class);
+                progressDialog = new ProgressDialog(context);
+                progressDialog.setTitle("title");
+                progressDialog.setMessage("loading");
+                //progressDialog.show();
 
-                if(Utils.isMyServiceRunning(BackgroundSoundService.class, context))
-                    context.stopService(svc);
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent svc = new Intent(context, BackgroundSoundService.class);
 
-                svc.putExtra("url", pi.Url());
-                context.startService(svc);
+                        if(Utils.isMyServiceRunning(BackgroundSoundService.class, context))
+                            context.stopService(svc);
+
+                        svc.putExtra("url", pi.Url());
+                        context.startService(svc);
+                    }
+                });
 
                 if (null != mListener) {
                     mListener.onListFragmentInteraction(pi);

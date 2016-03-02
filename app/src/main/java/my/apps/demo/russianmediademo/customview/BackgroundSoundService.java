@@ -2,12 +2,10 @@ package my.apps.demo.russianmediademo.customview;
 
 import android.app.Service;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.io.IOException;
@@ -32,6 +30,7 @@ public class BackgroundSoundService extends Service {
     public void onCreate() {
         super.onCreate();
         Log.d("service", "onCreate");
+
         player = new MediaPlayer();
         player.setLooping(false);
         player.setVolume(100, 100);
@@ -108,28 +107,13 @@ public class BackgroundSoundService extends Service {
 
     public int GetDuration(){
         if(player != null && player.isPlaying())
-        {
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-            SharedPreferences.Editor edit = sharedPrefs.edit();
-            edit.putInt("duration", player.getDuration());
-            edit.commit();
-
             return player.getDuration();
-        }
         else return 0;
     }
 
     public int CurrentPosition(){
         if(player != null && player.isPlaying() && playing)
-        {
-            int position = player.getCurrentPosition();
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-            SharedPreferences.Editor edit = sharedPrefs.edit();
-            edit.putInt("currentPosition", position);
-            edit.commit();
-
-            return position;
-        }
+            return player.getCurrentPosition();
         else return 0;
     }
 

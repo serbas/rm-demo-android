@@ -18,10 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 
 import my.apps.demo.russianmediademo.customview.BackgroundSoundService;
 import my.apps.demo.russianmediademo.customview.PlaylistAdapter;
@@ -65,9 +62,6 @@ public class MainActivity extends Activity implements RecyclerView.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SortTest(10000);
-        SortTest(100000);
-
         stop_btn = (Button)findViewById(R.id.stop_btn);
         stop_btn.setEnabled(true);
 
@@ -96,27 +90,6 @@ public class MainActivity extends Activity implements RecyclerView.OnClickListen
             }
         }
 
-    }
-
-    public class CustomComparator implements Comparator<Integer> {
-        @Override
-        public int compare(Integer o1, Integer o2) {
-            return o1.compareTo(o2);
-        }
-    }
-
-    private void SortTest(int n) {
-        Log.i(TAG, "preparing data for " + n + "...");
-        Random rr = new Random();
-        List<Integer> arr = new ArrayList<>();
-        for(int i=0;i <n; i++)
-            arr.add(rr.nextInt(1000000));
-
-        Log.i(TAG, "Sort started");
-
-        Collections.sort(arr, new CustomComparator());
-
-        Log.i(TAG, n + " sorted");
     }
 
     @Override
