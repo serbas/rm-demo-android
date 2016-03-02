@@ -11,6 +11,8 @@ import android.util.Log;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import my.apps.demo.russianmediademo.App;
+
 public class BackgroundSoundService extends Service {
     private static final String TAG = "BgSoundService";
     public static final String BROADCAST_ACTION = "my.apps.demo.russianmediademo.updatedata";
@@ -42,6 +44,7 @@ public class BackgroundSoundService extends Service {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
                 Log.i(TAG, "onCompletion");
+                App.Instance().SetBusy(false);
             }
         });
 
@@ -49,6 +52,7 @@ public class BackgroundSoundService extends Service {
             @Override
             public void onPrepared(MediaPlayer mediaPlayer) {
                 Log.i(TAG, "onPrepared");
+                App.Instance().SetBusy(false);
             }
         });
 
@@ -56,6 +60,7 @@ public class BackgroundSoundService extends Service {
             @Override
             public void onBufferingUpdate(MediaPlayer mediaPlayer, int i) {
                 Log.i(TAG, "onBufferingUpdate");
+                App.Instance().SetBusy(false);
             }
         });
     }
@@ -88,9 +93,10 @@ public class BackgroundSoundService extends Service {
         handler.removeCallbacks(sendUpdatesToUI);
         handler.postDelayed(sendUpdatesToUI, 1000); // 1 second
 
-        startMediaPlayer(url);
-
-        startPlayProgressUpdater();
+        if(!App.Instance().IsBusy()) {
+            startMediaPlayer(url);
+            startPlayProgressUpdater();
+        }
 
         return 1;
     }
@@ -98,15 +104,21 @@ public class BackgroundSoundService extends Service {
     private void startMediaPlayer(final String url) {
         Thread t = new Thread(new Runnable() {
             public void run() {
-                try {
-                    Log.i(TAG, "startMediaPlayer...");
-                    playing = true;
-                    player.setDataSource(url);
-                    player.prepare();
-                    player.start();
-                    Log.i(TAG, "startMediaPlayer started!");
-                } catch (IOException e) {
-                    e.printStackTrace();
+                synchronized (player) {
+                    try {
+                        if(App.Instance().IsBusy()) return;
+
+                        App.Instance().SetBusy(true);
+
+                        Log.i(TAG, "startMediaPlayer...");
+                        playing = true;
+                        player.setDataSource(url);
+                        player.prepare();
+                        player.start();
+                        Log.i(TAG, "startMediaPlayer started!");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });

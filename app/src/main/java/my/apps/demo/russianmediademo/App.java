@@ -10,6 +10,7 @@ public class App {
     private static App instance;
     private List<PlaylistItem> _playlist;
     private PlaylistItem playing_item;
+    private boolean _busy;
 
     private App() {
     }
@@ -33,4 +34,12 @@ public class App {
     }
 
     public PlaylistItem PlayingItem(){return playing_item;}
+
+    public void SetBusy(boolean busy){
+        _busy = busy;
+    }
+
+    public boolean IsBusy(){
+        return  _busy;
+    }
 }

@@ -114,8 +114,10 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> {
                         if(Utils.isMyServiceRunning(BackgroundSoundService.class, context))
                             context.stopService(svc);
 
-                        svc.putExtra("url", pi.Url());
-                        context.startService(svc);
+                        if(!App.Instance().IsBusy()) {
+                            svc.putExtra("url", pi.Url());
+                            context.startService(svc);
+                        }
                     }
                 });
 
