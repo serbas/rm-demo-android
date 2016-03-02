@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -34,6 +35,7 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> {
         public ImageView mImage;
         public TextView mPositionText;
         public SeekBar mSeekbar;
+        public ProgressBar mProgress;
     }
 
     public PlaylistAdapter(Activity context, List<PlaylistItem> items) {
@@ -60,6 +62,7 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> {
             // configure view holder
             viewHolder = new ViewHolder();
             viewHolder.mTitle = (TextView) convertView.findViewById(R.id.title);
+            viewHolder.mProgress = (ProgressBar) convertView.findViewById(R.id.progressBar);
             viewHolder.mPositionText = (TextView) convertView.findViewById(R.id.position_text);
             viewHolder.mImage = (ImageView) convertView.findViewById(R.id.playlist_image);
             viewHolder.mSeekbar = (SeekBar) convertView.findViewById(R.id.progress);
@@ -73,14 +76,16 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> {
 
         final PlaylistItem pi = items.get(position);
 
-        if(pi.equals(App.Instance().PlayingItem()))
+        if(pi.equals(App.Instance().PlayingItem()) && pi.GetPosition() > 0)
         {
             viewHolder.mTitle.setBackgroundColor(Color.YELLOW);
+            viewHolder.mProgress.setVisibility(View.VISIBLE);
         }
         else {
             pi.SetPosition(0, 0);
             pi.SetData("00:00");
             viewHolder.mTitle.setBackgroundColor(Color.WHITE);
+            viewHolder.mProgress.setVisibility(View.GONE);
         }
 
         viewHolder.mTitle.setText(pi.Name());
@@ -94,6 +99,8 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> {
             public void onClick(View view) {
                 Log.i(TAG, "item clicked:" + pi.Name());
                 App.Instance().SetPlaying(pi);
+
+                viewHolder.mProgress.setVisibility(View.VISIBLE);
 
                 progressDialog = new ProgressDialog(context);
                 progressDialog.setTitle("title");

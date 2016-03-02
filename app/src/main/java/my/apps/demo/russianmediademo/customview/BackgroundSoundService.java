@@ -31,12 +31,12 @@ public class BackgroundSoundService extends Service {
         super.onCreate();
         Log.d("service", "onCreate");
 
+        if(intent == null)
+            intent = new Intent(BROADCAST_ACTION);
+
         player = new MediaPlayer();
         player.setLooping(false);
         player.setVolume(100, 100);
-
-        if(intent == null)
-            intent = new Intent(BROADCAST_ACTION);
 
         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
@@ -62,22 +62,19 @@ public class BackgroundSoundService extends Service {
 
     private Runnable sendUpdatesToUI = new Runnable() {
         public void run() {
-            DisplayLoggingInfo();
+            if(playing) {
+                try {
+                    intent.putExtra("position", CurrentPosition());
+                    intent.putExtra("duration", GetDuration());
+                } catch (Exception e) {
+
+                }
+                sendBroadcast(intent);
+            }
+
             handler.postDelayed(this, 1000);
         }
     };
-
-    private void DisplayLoggingInfo() {
-        if(playing) {
-            try {
-                intent.putExtra("position", CurrentPosition());
-                intent.putExtra("duration", GetDuration());
-            } catch (Exception e) {
-
-            }
-            sendBroadcast(intent);
-        }
-    }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "onStartCommand");
@@ -93,15 +90,14 @@ public class BackgroundSoundService extends Service {
 
         try {
             playing = true;
-
-            startPlayProgressUpdater();
-
             player.setDataSource(url);
             player.prepare();
             player.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        startPlayProgressUpdater(url);
+
         return 1;
     }
 
@@ -117,7 +113,7 @@ public class BackgroundSoundService extends Service {
         else return 0;
     }
 
-    public void startPlayProgressUpdater() {
+    public void startPlayProgressUpdater(final String url) {
         Thread t = new Thread(new Runnable() {
             public void run() {
                 try {
