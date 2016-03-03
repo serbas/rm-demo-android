@@ -97,32 +97,35 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> {
             @Override
             public void onClick(View view) {
                 Log.i(TAG, "item clicked:" + pi.Name());
-                App.Instance().SetPlaying(pi);
 
-                viewHolder.mProgress.setVisibility(View.VISIBLE);
+                if(!App.Instance().IsBusy()) {
 
-                progressDialog = new ProgressDialog(context);
-                progressDialog.setTitle("title");
-                progressDialog.setMessage("loading");
-                //progressDialog.show();
+                    App.Instance().SetPlaying(pi);
 
-                context.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Intent svc = new Intent(context, BackgroundSoundService.class);
+                    viewHolder.mProgress.setVisibility(View.VISIBLE);
 
-                        if(Utils.isMyServiceRunning(BackgroundSoundService.class, context))
-                            context.stopService(svc);
+                    progressDialog = new ProgressDialog(context);
+                    progressDialog.setTitle("title");
+                    progressDialog.setMessage("loading");
+                    //progressDialog.show();
 
-                        if(!App.Instance().IsBusy()) {
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent svc = new Intent(context, BackgroundSoundService.class);
+
+                            if (Utils.isMyServiceRunning(BackgroundSoundService.class, context))
+                                context.stopService(svc);
+
                             svc.putExtra("url", pi.Url());
                             context.startService(svc);
                         }
-                    }
-                });
+                    });
 
-                if (null != mListener) {
-                    mListener.onListFragmentInteraction(pi);
+                    if (null != mListener) {
+                        mListener.onListFragmentInteraction(pi);
+                    }
+
                 }
             }
         });
