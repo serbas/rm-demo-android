@@ -79,6 +79,8 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> {
         if(pi.equals(App.Instance().PlayingItem()) && pi.GetPosition() > 0)
         {
             viewHolder.mTitle.setBackgroundColor(Color.YELLOW);
+            if(progressDialog != null)
+                progressDialog.dismiss();
         }
         else {
             pi.SetPosition(0, 0);
@@ -102,16 +104,18 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> {
 
                     App.Instance().SetPlaying(pi);
 
-                    viewHolder.mProgress.setVisibility(View.VISIBLE);
-
                     progressDialog = new ProgressDialog(context);
-                    progressDialog.setTitle("title");
-                    progressDialog.setMessage("loading");
-                    //progressDialog.show();
+                    progressDialog.setTitle(String.format("Loading %s", pi.Name()));
+                    progressDialog.setMessage("Please wait...");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
 
                     context.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+
+                            viewHolder.mProgress.setVisibility(View.VISIBLE);
+
                             Intent svc = new Intent(context, BackgroundSoundService.class);
 
                             if (Utils.isMyServiceRunning(BackgroundSoundService.class, context))
