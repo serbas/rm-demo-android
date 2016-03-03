@@ -29,6 +29,7 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> {
     private PlaylistView.OnListFragmentInteractionListener mListener;
     private ViewHolder viewHolder;
     private ProgressDialog progressDialog;
+    private final boolean SHOW_PROGRESS_DIALOG = false;
 
     static class ViewHolder {
         public TextView mTitle;
@@ -79,7 +80,7 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> {
         if(pi.equals(App.Instance().PlayingItem()) && pi.GetPosition() > 0)
         {
             viewHolder.mTitle.setBackgroundColor(Color.YELLOW);
-            if(progressDialog != null)
+            if(SHOW_PROGRESS_DIALOG && progressDialog != null)
                 progressDialog.dismiss();
         }
         else {
@@ -104,12 +105,14 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> {
 
                     App.Instance().SetPlaying(pi);
 
-                    progressDialog = new ProgressDialog(context);
-                    progressDialog.setTitle(String.format("Loading %s", pi.Name()));
-                    progressDialog.setMessage("Please wait...");
-                    progressDialog.setCancelable(false);
-                    progressDialog.show();
-
+                    if(SHOW_PROGRESS_DIALOG) {
+                        progressDialog = new ProgressDialog(context);
+                        progressDialog.setTitle(String.format("Loading %s", pi.Name()));
+                        progressDialog.setMessage("Please wait...");
+                        progressDialog.setCancelable(false);
+                        progressDialog.show();
+                    }
+                    
                     context.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
