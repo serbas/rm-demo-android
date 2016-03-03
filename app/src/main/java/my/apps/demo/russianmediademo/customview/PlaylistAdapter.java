@@ -29,7 +29,7 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> {
     private PlaylistView.OnListFragmentInteractionListener mListener;
     private ViewHolder viewHolder;
     private ProgressDialog progressDialog;
-    private final boolean SHOW_PROGRESS_DIALOG = false;
+    private final boolean SHOW_PROGRESS_DIALOG = true;
 
     static class ViewHolder {
         public TextView mTitle;
@@ -109,10 +109,10 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> {
                         progressDialog = new ProgressDialog(context);
                         progressDialog.setTitle(String.format("Loading %s", pi.Name()));
                         progressDialog.setMessage("Please wait...");
-                        progressDialog.setCancelable(false);
+                        progressDialog.setCancelable(true);
                         progressDialog.show();
                     }
-                    
+
                     context.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

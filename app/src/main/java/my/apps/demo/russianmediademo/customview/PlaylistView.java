@@ -54,4 +54,5 @@ public class PlaylistView extends ListView {
     {
         super.onDraw(canvas);
     }
+
 }
