@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -36,6 +37,7 @@ public class MainActivity extends Activity implements RecyclerView.OnClickListen
     private String service_url = "https://backend.soundstream.media/API/v1.5/?action=get_podcasts";
     private Fragment newFragment;
     private Button stop_btn;
+    private TextView podcast_name;
     PlaylistView pv;
     private PlaylistAdapter adapter;
     private Intent intent;
@@ -66,6 +68,8 @@ public class MainActivity extends Activity implements RecyclerView.OnClickListen
         pi.SetData(Utils.TimeString(position, duration));
         pi.SetPosition(position, duration);
 
+        podcast_name.setText(pi.Name());
+
         adapter.notifyDataSetChanged();
     }
 
@@ -73,6 +77,8 @@ public class MainActivity extends Activity implements RecyclerView.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        podcast_name = (TextView)findViewById(R.id.podcast_name);
 
         stop_btn = (Button)findViewById(R.id.stop_btn);
         stop_btn.setEnabled(true);

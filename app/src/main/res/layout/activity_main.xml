@@ -6,11 +6,30 @@
     android:layout_height="match_parent"
     >
 
-    <Button
-        android:id="@+id/stop_btn"
-        android:text="@string/stop"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/podcast_name"
+            android:text="..."
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_margin="5sp"
+            android:layout_weight="1"
+            android:padding="5sp"
+            />
+
+        <Button
+            android:id="@+id/stop_btn"
+            android:text="@string/stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+
+    </LinearLayout>
 
     <my.apps.demo.russianmediademo.customview.PlaylistView
         xmlns:android="http://schemas.android.com/apk/res/android"
