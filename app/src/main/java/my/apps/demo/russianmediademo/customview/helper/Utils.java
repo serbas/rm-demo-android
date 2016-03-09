@@ -4,12 +4,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.util.Log;
 
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 public class Utils {
@@ -51,36 +46,5 @@ public class Utils {
         int m2 = s2 / 60;
         return String.format("%02d:%02d/%02d:%02d", m1, s1 % 60, m2, s2 % 60);
     }
-
-    public static String HttpsContent(String url) {
-        DataLoader dl = new DataLoader();
-        try {
-            HttpResponse response = dl.secureLoadData(url);
-
-            StringBuilder sb = new StringBuilder();
-            sb.append("HEADERS:\n\n");
-
-            Header[] headers = response.getAllHeaders();
-            for (int i = 0; i < headers.length; i++) {
-                Header h = headers[i];
-                sb.append(h.getName()).append(":\t").append(h.getValue()).append("\n");
-            }
-
-            InputStream is = response.getEntity().getContent();
-            StringBuilder out = new StringBuilder();
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            for (String line = br.readLine(); line != null; line = br.readLine())
-                out.append(line);
-            br.close();
-
-            return out.toString();
-        }
-        catch(Exception e){
-            Log.e(TAG, "HttpsContent:" + e.getMessage());
-        }
-        return null;
-    }
-
-
 
 }
