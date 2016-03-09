@@ -1,5 +1,7 @@
 package my.apps.demo.russianmediademo.customview.helper;
 
+import android.util.Log;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -21,6 +23,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class RestClient {
+    private static final String TAG = "RestClient";
+
     public enum RequestMethod {
         GET,
         POST
@@ -31,6 +35,7 @@ public class RestClient {
     public String response;
 
     public void Execute(RequestMethod method, String url, ArrayList<NameValuePair> headers, ArrayList<NameValuePair> params, String sendData) throws Exception {
+        Log.i(TAG, method + ":" + url);
         switch (method) {
             case GET: {
                 // add parameters
@@ -83,6 +88,7 @@ public class RestClient {
 
     private void executeRequest(HttpUriRequest request, String url) {
         HttpClient client = new DefaultHttpClient();
+
         HttpResponse httpResponse;
         try {
             httpResponse = client.execute(request);
@@ -96,6 +102,7 @@ public class RestClient {
                 instream.close();
             }
         } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
         }
     }
 

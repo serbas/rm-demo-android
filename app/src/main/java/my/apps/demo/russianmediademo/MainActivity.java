@@ -17,6 +17,7 @@ import android.widget.Button;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +25,10 @@ import my.apps.demo.russianmediademo.customview.BackgroundSoundService;
 import my.apps.demo.russianmediademo.customview.PlaylistAdapter;
 import my.apps.demo.russianmediademo.customview.PlaylistItem;
 import my.apps.demo.russianmediademo.customview.PlaylistView;
-import my.apps.demo.russianmediademo.customview.helper.RestClient;
 import my.apps.demo.russianmediademo.customview.helper.Utils;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity extends Activity implements RecyclerView.OnClickListener {
 
@@ -34,10 +37,19 @@ public class MainActivity extends Activity implements RecyclerView.OnClickListen
     private Fragment newFragment;
     private Button stop_btn;
     PlaylistView pv;
-
     private PlaylistAdapter adapter;
-
     private Intent intent;
+
+    OkHttpClient client = new OkHttpClient();
+
+    String doGetRequest(String url) throws IOException {
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        return response.body().string();
+    }
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -153,14 +165,12 @@ public class MainActivity extends Activity implements RecyclerView.OnClickListen
     }
 
     private List<PlaylistItem> LoadData(String url){
-
         List<PlaylistItem> result = new ArrayList<>();
-
-        RestClient rc = new RestClient();
         try {
-            rc.Execute(RestClient.RequestMethod.GET, url, null, null, null);
+            String json = doGetRequest(url);
+            Log.i(TAG, "doGetRequest:" + json);
 
-            JSONObject jResponse = new JSONObject(rc.response);
+            JSONObject jResponse = new JSONObject(json);
             boolean is_ok = jResponse.getBoolean("success");
 
             if(is_ok) {
