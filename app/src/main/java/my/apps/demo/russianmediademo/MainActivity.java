@@ -133,6 +133,7 @@ public class MainActivity extends Activity implements RecyclerView.OnClickListen
     private void StopMedia() {
         Intent svc = new Intent(this, BackgroundSoundService.class);
         stopService(svc);
+        //unregisterReceiver(broadcastReceiver);
     }
 
     private class AsyncListViewLoader extends AsyncTask<String, Void, List<PlaylistItem>> {

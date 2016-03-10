@@ -87,7 +87,8 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> {
             pi.SetPosition(0, 0);
             pi.SetData("00:00");
             viewHolder.mTitle.setBackgroundColor(Color.WHITE);
-            viewHolder.mProgress.setVisibility(View.GONE);
+            if(viewHolder.mProgress != null)
+                viewHolder.mProgress.setVisibility(View.GONE);
         }
 
         viewHolder.mTitle.setText(pi.Name());

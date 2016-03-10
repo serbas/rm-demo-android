@@ -13,7 +13,7 @@ public class PlaylistItem {
         _id = id;
         _name = name;
         _high = high;
-        _image = image;
+        _image = image.replace(" ", "+");
         _data = data;
     }
 
